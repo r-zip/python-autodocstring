@@ -13,7 +13,7 @@ def get_funcdef_at_point(uri: str, current_line: int):
     current_funcdef = None
     for funcdef in funcdefs:
         if funcdef.start_pos[0] <= current_line <= funcdef.end_pos[0]:
-            current_funcdef = funcdef
+            return current_funcdef
     return current_funcdef
 
 
