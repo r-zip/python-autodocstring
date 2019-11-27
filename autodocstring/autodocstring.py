@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-"""Main module."""
 from itertools import dropwhile, takewhile
 from uuid import uuid4
 from typing import Dict

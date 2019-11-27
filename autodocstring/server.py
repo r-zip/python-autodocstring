@@ -3,7 +3,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from jsonrpcserver import dispatch, method
 
 from .autodocstring import docstring_info
-from .constants import HOST, DEFAULT_PORT
+from .constants import DEFAULT_HOST, DEFAULT_PORT
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -25,9 +25,9 @@ class TestHttpServer(BaseHTTPRequestHandler):
         self.wfile.write(str(response).encode())
 
 
-def start_server():
+def start_server(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT):
     """Console script for python_autodocstring."""
-    HTTPServer((HOST, DEFAULT_PORT), TestHttpServer).serve_forever()
+    HTTPServer((host, port), TestHttpServer).serve_forever()
 
 
 if __name__ == "__main__":
