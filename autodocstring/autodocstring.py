@@ -2,6 +2,8 @@
 
 """Main module."""
 from http.server import BaseHTTPRequestHandler
+from itertools import dropwhile, takewhile
+from typing import Union
 
 import parso
 from parso.python.tree import Module
@@ -24,26 +26,16 @@ def get_file_contents(uri: str, line_start: int, line_stop: int) -> str:
     return contents
 
 
-# TODO: allow no line_start/line_stop
-def get_funcdef(uri: str, line_start: int, line_stop: int, current_line=None):
-    if (current_line is not None) and not (line_start <= current_line <= line_stop):
-        raise ValueError("Current line must be between starting and ending lines.")
-    if current_line:
-        with open(uri) as f:
-            code = f.read()
-        tree = parso.parse(code)
-        funcdefs = list(tree.iter_funcdefs())
-        for funcdef in funcdefs:
-            pass
-    else:
-        code = get_file_contents(uri, line_start, line_stop)
-        tree = parso.parse(code)
-        funcdefs = list(tree.iter_funcdefs())
-        if len(funcdefs) == 0:
-            return None
-        else:
-            funcdef = funcdefs[0]
-    return funcdef
+def get_funcdef_at_point(uri: str, current_line: int):
+    with open(uri) as f:
+        code = f.read()
+    tree = parso.parse(code)
+    funcdefs = list(tree.iter_funcdefs())
+    current_funcdef = None
+    for funcdef in funcdefs:
+        if funcdef.start_pos[0] <= current_line <= funcdef.end_pos[0]:
+            current_funcdef = funcdef
+    return current_funcdef
 
 
 def get_code(node):
@@ -52,21 +44,35 @@ def get_code(node):
     return node.get_code().strip()
 
 
-def docstring(uri: str, line_start: int, line_stop: int, current_line: int = None) -> Module:
-    funcdef = get_funcdef(uri, line_start, line_stop, current_line)
+def is_arrow(node):
+    return node.type == "operator" and node.value == "->"
+
+
+def is_colon(node):
+    return node.type == "operator" and node.value == ":"
+
+
+def is_name(node):
+    pass
+
+
+def docstring(uri: str, current_line: int = None) -> Union[Module, str]:
+    funcdef = get_funcdef_at_point(uri, current_line)
     if funcdef is None:
         return None
     func_name = funcdef.name.value
-    try:
-        parameters = [node for node in funcdef.children if node.type == "parameters"][0]
-    except IndexError:
-        raise ValueError("Couldn't find parameters.")
+    parameters = [node for node in funcdef.children if node.type == "parameters"][0]
     params = [p for p in parameters.children if p.type == "param"]
+    if any(is_arrow(n) for n in funcdef.children) and any(is_arrow(n) for n in funcdef.children):
+        children = dropwhile(lambda x: not is_arrow(x), funcdef.children)
+        children = takewhile(lambda x: not is_colon(x), children)
+        return_typehint = get_code(list(children)[1])
     return {
         "func_name": func_name,
         "params": [
             {"name": p.name.value, "annotation": get_code(p.annotation), "default": get_code(p.default)} for p in params
         ],
+        "return_typehint": return_typehint,
     }
 
 

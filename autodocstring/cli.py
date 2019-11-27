@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 """Console script for python_autodocstring."""
-import argparse
 import sys
 
 from .server import start_server
