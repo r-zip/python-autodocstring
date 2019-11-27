@@ -39,6 +39,7 @@ def docstring_info(uri: str, line: int) -> Dict:
 
     # get the function name, parameters, and return typehint
     func_name = funcdef.name.value
+    # TODO: don't let nested definitions pollute these lists
     parameters = [node for node in funcdef.children if node.type == "parameters"][0]
     params = [p for p in parameters.children if p.type == "param"]
 
