@@ -1,5 +1,6 @@
 import logging
 from http.server import HTTPServer, BaseHTTPRequestHandler
+
 from jsonrpcserver import dispatch, method
 
 from .autodocstring import docstring_info
