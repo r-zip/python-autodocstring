@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-"""Console script for python_autodocstring."""
 import sys
 import argparse
 
