@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
 """Main module."""
-from http.server import BaseHTTPRequestHandler
 from itertools import dropwhile, takewhile
 from uuid import uuid4
 from typing import Dict
 
 import parso
-import ujson
 
 
 def get_funcdef_at_point(uri: str, current_line: int):
