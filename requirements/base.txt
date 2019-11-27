@@ -1,0 +1,4 @@
+parso==0.5.1
+ujson==1.35
+jsonrpcserver==4.0.5
+tornado==6.0.3
