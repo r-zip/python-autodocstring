@@ -12,7 +12,7 @@ logger.addHandler(logging.StreamHandler())
 docstring_info = method(docstring_info)
 
 
-class TestHttpServer(BaseHTTPRequestHandler):
+class AutodocstringHttpServer(BaseHTTPRequestHandler):
     def do_POST(self):
         # Process request
         request = self.rfile.read(int(self.headers["Content-Length"])).decode()
@@ -27,8 +27,4 @@ class TestHttpServer(BaseHTTPRequestHandler):
 
 def start_server(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT):
     """Console script for python_autodocstring."""
-    HTTPServer((host, port), TestHttpServer).serve_forever()
-
-
-if __name__ == "__main__":
-    start_server()
+    HTTPServer((host, port), AutodocstringHttpServer).serve_forever()
