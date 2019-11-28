@@ -1,39 +1,58 @@
 from itertools import dropwhile, takewhile
 from uuid import uuid4
-from typing import Dict
+from typing import Any, Dict
 
 import parso
 
 
-def get_funcdef_at_point(uri: str, current_line: int):
+class Interval:
+    def __init__(self, low: float, high: float):
+        self.low = low
+        self.high = high
+
+    def contains(self, other: "Interval") -> bool:
+        if other.low <= self.low and self.high <= other.high:
+            return True
+        return False
+
+    def overlaps_with(self, other: "Interval") -> bool:
+        if self.high <= other.low or self.low >= other.high:
+            return True
+        return False
+
+
+def get_funcdefs_at_point(uri: str, current_line: int, innermost: bool = True):
     with open(uri) as f:
         code = f.read()
     tree = parso.parse(code)
     funcdefs = list(tree.iter_funcdefs())
-    current_funcdef = None
+    funcdefs_at_point = []
+
     for funcdef in funcdefs:
         if funcdef.start_pos[0] <= current_line <= funcdef.end_pos[0]:
-            return current_funcdef
-    return current_funcdef
+            funcdefs_at_point.append(funcdef)
+
+    return funcdefs_at_point
 
 
-def to_code(node):
+def to_code(node: Any) -> str:
     if node is None:
         return None
     return node.get_code().strip()
 
 
-def is_arrow(node):
+def is_arrow(node: Any) -> str:
     return node.type == "operator" and node.value == "->"
 
 
-def is_colon(node):
+def is_colon(node: Any) -> str:
     return node.type == "operator" and node.value == ":"
 
 
+# TODO: get outermost or innermost docstring
 def docstring_info(uri: str, line: int) -> Dict:
     # if there are no function definitions at the current line, return None
-    funcdef = get_funcdef_at_point(uri, line)
+    funcdef = get_funcdefs_at_point(uri, line)[0]
     if funcdef is None:
         return None
 
@@ -63,3 +82,7 @@ def docstring_info(uri: str, line: int) -> Dict:
     }
 
     return response
+
+
+if __name__ == "__main__":
+    docstring_info("autodocstring/autodocstring.py", 67)
