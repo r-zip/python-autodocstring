@@ -1,8 +1,9 @@
 from itertools import dropwhile, takewhile
 from uuid import uuid4
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 import parso
+from parso.python.tree import Function
 
 
 class Interval:
@@ -21,7 +22,7 @@ class Interval:
         return False
 
 
-def get_funcdefs_at_point(uri: str, current_line: int, innermost: bool = True):
+def get_funcdefs_at_point(uri: str, current_line: int, innermost: bool = True) -> List[Function]:
     with open(uri) as f:
         code = f.read()
     tree = parso.parse(code)
