@@ -4,14 +4,6 @@ import parso
 from parso.python.tree import ClassOrFunc, Module
 
 
-class Foo:
-    def __init__(self):
-        pass
-
-    def bar(self):
-        pass
-
-
 def get_parse_tree(uri: str) -> Module:
     with open(uri) as f:
         code = f.read()
