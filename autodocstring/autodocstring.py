@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import parso
 from parso.python.tree import ClassOrFunc, Module
@@ -26,7 +26,7 @@ def get_toplevel_defs(uri: str) -> Dict:
     return [*toplevel_funcdefs, *toplevel_classdefs]
 
 
-def get_enclosing_def(uri: str, line: int, defs: List) -> ClassOrFunc:
+def get_enclosing_def(uri: str, line: int, defs: List) -> Optional[ClassOrFunc]:
     # base cases
     if len(defs) == 0:
         return None
