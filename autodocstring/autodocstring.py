@@ -61,8 +61,7 @@ def get_function_info(defn: Function) -> Dict[str, Any]:
         if len(children) == 2:
             return_typehint = to_code(list(children)[1])
 
-    raise_stmts = list(defn.iter_raise_stmts())
-    raise_types = [to_code(stmt.children[1].children[0]) for stmt in raise_stmts]
+    raise_types = [to_code(stmt.children[1].children[0]) for stmt in defn.raise_stmts()]
 
     return {
         "func_name": name,
