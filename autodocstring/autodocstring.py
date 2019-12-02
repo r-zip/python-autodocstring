@@ -15,9 +15,7 @@ def get_parse_tree(uri: str) -> Module:
 
 def get_toplevel_defs(uri: str) -> Dict:
     tree = get_parse_tree(uri)
-    toplevel_funcdefs = list(tree.iter_funcdefs())
-    toplevel_classdefs = list(tree.iter_classdefs())
-    return [*toplevel_funcdefs, *toplevel_classdefs]
+    return [*tree.iter_funcdefs(), *tree.iter_classdefs()]
 
 
 def get_enclosing_defn(uri: str, line: int, defs: List[ClassOrFunc]) -> Optional[ClassOrFunc]:
@@ -29,7 +27,7 @@ def get_enclosing_defn(uri: str, line: int, defs: List[ClassOrFunc]) -> Optional
     for defn in defs:
         if isinstance(defn, ClassOrFunc) and defn.start_pos[0] <= line and defn.end_pos[0] >= line:
             # search over this definition's function and class definitions
-            nested_defs = list(defn.iter_funcdefs()) + list(defn.iter_classdefs())
+            nested_defs = [*defn.iter_funcdefs(), *defn.iter_classdefs()]
             # prefer most nested def
             return get_enclosing_defn(uri, line, nested_defs) or defn
 
@@ -48,7 +46,6 @@ def get_docstring_info(uri: str, line: int) -> Optional[Dict[str, Any]]:
 
 
 def get_function_info(defn: Function) -> Dict[str, Any]:
-    name = defn.name.value
     parameters = [node for node in defn.children if node.type == "parameters"][0]
     params = [p for p in parameters.children if p.type == "param"]
 
@@ -64,7 +61,7 @@ def get_function_info(defn: Function) -> Dict[str, Any]:
     raise_types = [to_code(stmt.children[1].children[0]) for stmt in defn.iter_raise_stmts()]
 
     return {
-        "func_name": name,
+        "func_name": defn.name.value,
         "params": [
             {"name": p.name.value, "annotation": to_code(p.annotation), "default": to_code(p.default)} for p in params
         ],
@@ -91,10 +88,3 @@ def is_colon(node: Any) -> str:
 # TODO: stub
 def get_class_info(defn: Class) -> Dict[str, Any]:
     pass
-
-
-if __name__ == "__main__":
-    uri = "autodocstring/autodocstring.py"
-    line = 100
-    toplevel_defs = get_toplevel_defs(uri)
-    enclosing_funcdef = get_enclosing_defn(uri, line, toplevel_defs)
