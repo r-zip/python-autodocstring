@@ -13,6 +13,7 @@ ipdb==0.12.2
 neovim==0.3.1
 jsonrpcclient[requests]==3.3.4
 MonkeyType==19.11.1
+python-language-server==0.31.1
 
 pytest==4.6.5
 pytest-runner==5.1
