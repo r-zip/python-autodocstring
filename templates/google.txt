@@ -1,0 +1,20 @@
+[DESCRIPTION]
+{% if args %}
+
+Args:
+{% for arg in args %}
+    {arg['name']} ({arg['type']}): [DESCRIPTION]
+{% endfor %}
+{% endif %}
+{% if return_type %}
+
+Returns:
+    {return_type}: [DESCRIPTION]
+{% endif %}
+{% if raises %}
+
+Raises:
+{% for raise in raises %}
+    {raise}: [DESCRIPTION]
+{% endfor %}
+{% endif %}
