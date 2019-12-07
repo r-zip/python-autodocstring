@@ -29,7 +29,7 @@ Overview
 This package was written to fulfill a need: consistent, accurate, and versatile
 docstring generation plugins for text editors are difficult to come by. Those
 that do work well are usually limited to a single editor ecosystem (e.g.,
-`autoDocstring`).
+`autoDocstring`_).
 
 By providing a backend that can generate docstrings through CLI and JSON-RPC,
 this plugin provides functionality that can be used in multiple editors (e.g.,
