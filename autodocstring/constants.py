@@ -1,2 +1,2 @@
-DEFAULT_HOST = "localhost"
-DEFAULT_PORT = 5000
+DEFAULT_HOST: str = "localhost"
+DEFAULT_PORT: int = 5000

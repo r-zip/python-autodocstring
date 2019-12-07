@@ -17,7 +17,7 @@ SERVERS: List[Dict] = []
 
 
 class AutodocstringHttpServer(BaseHTTPRequestHandler):
-    def do_POST(self):
+    def do_POST(self) -> None:
         # Process request
         request = self.rfile.read(int(self.headers["Content-Length"])).decode()
         logger.info(f"Received request: {request}")

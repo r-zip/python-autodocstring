@@ -25,7 +25,7 @@ def cli():
     default=DEFAULT_PORT,
     help=f"The port of the docstring generation server. Defauts to {DEFAULT_PORT}.",
 )
-def start_server(host: str, port: int):
+def start_server(host: str, port: int) -> None:
     servers = get_matching_servers(host, port)
     if len(servers) == 0:
         _start_server(host=host, port=port)
@@ -46,14 +46,14 @@ def start_server(host: str, port: int):
     default=DEFAULT_PORT,
     help=f"The port of the docstring generation server. Defauts to {DEFAULT_PORT}.",
 )
-def shutdown_server(host: str, port: int):
+def shutdown_server(host: str, port: int) -> None:
     _shutdown_server(host, port)
 
 
 @click.command()
 @click.argument("uri", type=click.Path(file_okay=True, dir_okay=False, readable=True))
 @click.argument("line", type=int)
-def generate_docstring(uri, line):
+def generate_docstring(uri, line) -> None:
     docstring_info = get_docstring_info(uri, line)
     click.echo(json.dumps(docstring_info))
 
