@@ -1,29 +1,66 @@
-import sys
-import argparse
+import json
 
-from .server import start_server
+import click
+
+from .autodocstring import get_docstring_info
+from .server import _start_server, _shutdown_server, get_matching_servers
 from .constants import DEFAULT_HOST, DEFAULT_PORT
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--host",
-        required=False,
-        default=DEFAULT_HOST,
-        help=f"The host of the docstring generation server. Defaults to {DEFAULT_HOST}.",
-    )
-    parser.add_argument(
-        "--port",
-        required=False,
-        default=DEFAULT_PORT,
-        help=f"The port of the docstring generation server. Defauts to {DEFAULT_PORT}.",
-    )
-    arguments = parser.parse_args()
-    host = arguments.host
-    port = arguments.port
-    start_server(host=host, port=port)
+@click.group()
+def cli():
+    pass
 
+
+@click.command()
+@click.option(
+    "--host",
+    type=str,
+    default=DEFAULT_HOST,
+    help=f"The host of the docstring generation server. Defaults to {DEFAULT_HOST}.",
+)
+@click.option(
+    "--port",
+    type=int,
+    default=DEFAULT_PORT,
+    help=f"The port of the docstring generation server. Defauts to {DEFAULT_PORT}.",
+)
+def start_server(host: str, port: int):
+    servers = get_matching_servers(host, port)
+    if len(servers) == 0:
+        _start_server(host=host, port=port)
+    else:
+        click.echo(f"Server for host == {host}, port == {port} is already running.")
+
+
+@click.command()
+@click.option(
+    "--host",
+    type=str,
+    default=DEFAULT_HOST,
+    help=f"The host of the docstring generation server. Defaults to {DEFAULT_HOST}.",
+)
+@click.option(
+    "--port",
+    type=int,
+    default=DEFAULT_PORT,
+    help=f"The port of the docstring generation server. Defauts to {DEFAULT_PORT}.",
+)
+def shutdown_server(host: str, port: int):
+    _shutdown_server(host, port)
+
+
+@click.command()
+@click.argument("uri", type=click.Path(file_okay=True, dir_okay=False, readable=True))
+@click.argument("line", type=int)
+def generate_docstring(uri, line):
+    docstring_info = get_docstring_info(uri, line)
+    click.echo(json.dumps(docstring_info))
+
+
+cli.add_command(start_server)
+cli.add_command(shutdown_server)
+cli.add_command(generate_docstring)
 
 if __name__ == "__main__":
-    sys.exit(main())  # pragma: no cover
+    cli()

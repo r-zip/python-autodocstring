@@ -35,7 +35,7 @@ setup(
         "Programming Language :: Python :: 3.8",
     ],
     description="Automatic docstring generation backend for programming editors.",
-    entry_points={"console_scripts": ["autodocstring=autodocstring.cli:main",],},
+    entry_points={"console_scripts": ["autodocstring=autodocstring.cli:cli",],},
     install_requires=requirements,
     license="MIT license",
     long_description=readme + "\n\n" + history,

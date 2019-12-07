@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
 import parso
-from parso.python.tree import Class, ClassOrFunc, Function, Module
+from parso.python.tree import ClassOrFunc, Function, Module
 
 
 def get_parse_tree(uri: str) -> Module:
@@ -42,7 +42,8 @@ def get_docstring_info(uri: str, line: int) -> Optional[Dict[str, Any]]:
 
     if type(enclosing_defn) == Function:
         return get_function_info(enclosing_defn)
-    return get_class_info(enclosing_defn)
+
+    return None
 
 
 def get_function_info(defn: Function) -> Dict[str, Any]:
@@ -83,8 +84,3 @@ def is_arrow(node: Any) -> str:
 
 def is_colon(node: Any) -> str:
     return node.type == "operator" and node.value == ":"
-
-
-# TODO: stub
-def get_class_info(defn: Class) -> Dict[str, Any]:
-    pass
