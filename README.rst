@@ -37,6 +37,34 @@ VSCode, SublimeText, Emacs, and Vim).
 
 Accuracy is ensured by leaning on the excellent `Parso library`_ to perform
 round-trip parsing of function arguments, typehints, and raise statements.
+Docstring style can be handled by templating on the server side or snippet
+expansion of the JSON representation on the client side.
+
+Installion
+----------
+
+Since this is a work in progress, install by downloading from GitHub:
+
+.. code-block :: none
+
+   git clone https://github.com/r-zip/python-autodocstring.git
+
+Next, in your virtual environment, run
+
+.. code-block :: none
+
+   cd python-autodocstring && python setup.py
+
+
+Usage
+-----
+
+To use this package from the command line, call :code:`autodocstring` with the
+target file and line number:
+
+.. code-block :: none
+
+   autodocstring 'path/to/your/source/file.py' $LINE_NUMBER
 
 
 Credits
