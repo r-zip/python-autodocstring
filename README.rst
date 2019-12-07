@@ -67,6 +67,14 @@ target file and line number:
    autodocstring 'path/to/your/source/file.py' $LINE_NUMBER
 
 
+Development
+-----------
+
+This package is currently under development. An Emacs plugin is planned. Help is
+wanted to develop plugins for other editors. If you are interested in developing
+a client, please send an email to ryan.z.pilgrim AT gmail.com.
+
+
 Credits
 -------
 
