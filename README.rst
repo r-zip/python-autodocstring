@@ -28,8 +28,8 @@ Overview
 
 This package was written to fulfill a need: consistent, accurate, and versatile
 docstring generation plugins for text editors are difficult to come by. Those
-that do work well are usually limited to a single plugin ecosystem (e.g., [TODO
-examples here]).
+that do work well are usually limited to a single editor ecosystem (e.g.,
+`autoDocstring`).
 
 By providing a backend that can generate docstrings through CLI and JSON-RPC,
 this plugin provides functionality that can be used in multiple editors (e.g.,
@@ -46,4 +46,5 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+.. _`autoDocstring`: https://github.com/NilsJPWerner/autoDocstring
 .. _`Parso library`: https://github.com/davidhalter/parso
