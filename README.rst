@@ -31,8 +31,8 @@ docstring generation plugins for text editors are difficult to come by. Those
 that do work well are usually limited to a single editor ecosystem (e.g.,
 `autoDocstring`_).
 
-By providing a backend that can generate docstrings through CLI and JSON-RPC,
-this plugin provides functionality that can be used in multiple editors (e.g.,
+Using a backend that can generate docstrings through CLI and JSON-RPC, this
+plugin provides functionality that can be used in multiple editors (e.g.,
 VSCode, SublimeText, Emacs, and Vim).
 
 Accuracy is ensured by leaning on the excellent `Parso library`_ to perform
