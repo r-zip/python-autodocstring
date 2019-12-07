@@ -55,7 +55,6 @@ def shutdown_server(host: str, port: int) -> None:
 @click.argument("line", type=int)
 def generate_docstring(uri: str, line: int) -> None:
     """Generate a single docstring for a function in the specified file."""
-    breakpoint()
     docstring_info = get_docstring_info(uri, line)
     click.echo(json.dumps(docstring_info))
 
