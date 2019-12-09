@@ -1,12 +1,9 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 """Tests for `python_autodocstring` package."""
 
 import pytest
 
-
-from python_autodocstring import python_autodocstring
+from autodocstring import autodocstring
+from autodocstring.server import _start_server, _shutdown_server, get_matching_servers
 
 
 @pytest.fixture

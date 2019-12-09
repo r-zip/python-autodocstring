@@ -1,7 +1,6 @@
 from jsonrpcclient.clients.http_client import HTTPClient
 
 from autodocstring.constants import DEFAULT_HOST, DEFAULT_PORT
-from autodocstring.server import _start_server, _shutdown_server
 
 if __name__ == "__main__":
     client = HTTPClient(f"http://{DEFAULT_HOST}:{DEFAULT_PORT}")
