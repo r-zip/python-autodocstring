@@ -17,7 +17,14 @@ SERVERS: List[Dict] = []
 
 
 class AutodocstringHttpServer(BaseHTTPRequestHandler):
+    """
+    A JSON RPC server capable of parsing Python docstrings.
+    """
+
     def do_POST(self) -> None:
+        """
+        Handle an HTTP POST. The encoded request is handled by jsonrpcserver.dispatch.
+        """
         # Process request
         request = self.rfile.read(int(self.headers["Content-Length"])).decode()
         logger.info(f"Received request: {request}")
@@ -30,12 +37,34 @@ class AutodocstringHttpServer(BaseHTTPRequestHandler):
 
 
 def get_matching_servers(host: str, port: int) -> List[Dict]:
+    """
+    Get a list of running servers matching the given host and port combination.
+
+    Args:
+        host (str): The host of the server.
+        port (int): The port of  the server.
+
+    Returns:
+        List[Dict]: A list of servers as dictionaries, with the server itself, host, and port for each server.
+    """
     matching_servers = [s for s in SERVERS if s["host"] == host and s["port"] == port]
     return matching_servers
 
 
 def _start_server(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT) -> None:
-    """Console script for python_autodocstring."""
+    """
+    Start a server on the given host and port, if none exists.
+
+    Args:
+        host (str): The host of the server.
+        port (int): The port of  the server.
+
+    Raises:
+        ValueError: If a server is already running on the specified host and port.
+    """
+    if len(get_matching_servers(host, port)) > 0:
+        raise ValueError(f"Server already running for host {host}, port {port}!")
+
     server = HTTPServer((host, port), AutodocstringHttpServer)
     SERVERS.append({"server": server, "host": host, "port": port})
     try:
@@ -45,6 +74,17 @@ def _start_server(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT) -> None:
 
 
 def _shutdown_server(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT) -> None:
+    """
+    Shut down server for the given host and port, if it exists.
+
+    Args:
+        host (str): The host of the server.
+        port (int): The port of  the server.
+
+    Raises:
+        ValueError: If there are no servers running on the specified host on the specified port.
+        ValueError: If there is more than one server matching the host and port (this should not happen).
+    """
     matching_servers = get_matching_servers(host, port)
     if len(matching_servers) == 1:
         server = matching_servers[0]

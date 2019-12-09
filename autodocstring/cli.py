@@ -26,6 +26,9 @@ def cli():
     help=f"The port of the docstring generation server. Defauts to {DEFAULT_PORT}.",
 )
 def start_server(host: str, port: int) -> None:
+    """
+    Start a JSON RPC server on the specified host and port. This CLI is intended for use by editor clients.
+    """
     servers = get_matching_servers(host, port)
     if len(servers) == 0:
         _start_server(host=host, port=port)
@@ -47,6 +50,9 @@ def start_server(host: str, port: int) -> None:
     help=f"The port of the docstring generation server. Defauts to {DEFAULT_PORT}.",
 )
 def shutdown_server(host: str, port: int) -> None:
+    """
+    Shutdown the server running on the specified host and port.
+    """
     _shutdown_server(host, port)
 
 
