@@ -54,7 +54,7 @@ Next, in your virtual environment, run
 
 .. code-block :: none
 
-   cd python-autodocstring && python setup.py
+   cd python-autodocstring && make init
 
 
 Usage
