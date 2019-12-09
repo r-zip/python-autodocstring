@@ -40,6 +40,7 @@ round-trip parsing of function arguments, typehints, and raise statements.
 Docstring style can be handled by templating on the server side or snippet
 expansion of the JSON representation on the client side.
 
+
 Installion
 ----------
 
@@ -65,6 +66,32 @@ target file and line number:
 .. code-block :: none
 
    autodocstring 'path/to/your/source/file.py' $LINE_NUMBER
+
+The client-server usage is still in development, but an example is provided in :code:`examples/client.py`.
+To run the example, first start the server in one terminal:
+
+.. code-block :: none
+
+   autodocstring start-server
+
+Then send a request in another terminal using the example script:
+
+.. code-block :: none
+
+   python examples/client.py
+
+You should see similar output to the following in your server terminal:
+
+.. code-block :: none
+
+   Received request: {"jsonrpc": "2.0", "method": "get_docstring_info", "params": {"uri": "autodocstring/autodocstring.py", "line": 29}, "id": 1}
+   127.0.0.1 - - [09/Dec/2019 12:51:46] "POST / HTTP/1.1" 200 -
+
+And in your client terminal:
+
+.. code-block :: none
+
+   Received result: {'func_name': 'get_toplevel_defs', 'params': [{'name': 'uri', 'annotation': 'str', 'default': None}], 'return_typehint': 'List[ClassOrFunc]', 'raise_types': [], 'id': 'ef72d79d-6107-40c9-b3d9-9edd81a6fe8d'}
 
 
 Development
