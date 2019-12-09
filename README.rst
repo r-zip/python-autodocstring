@@ -50,7 +50,7 @@ Since this is a work in progress, install by downloading from GitHub:
 
    git clone https://github.com/r-zip/python-autodocstring.git
 
-Next, in your virtual environment, run
+Next, run
 
 .. code-block :: none
 
