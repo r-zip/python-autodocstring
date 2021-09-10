@@ -3,5 +3,5 @@ ujson==1.35
 jsonrpcserver==4.0.5
 tornado==6.0.3
 click==7.0
-Jinja2==2.10.3
+jinja2>=2.11.3
 jsonrpcclient[requests]==3.3.6
